@@ -48,6 +48,27 @@ public BoardDetailResponseDTO getBoardDetail(@PathVariable long id) {
    - `TokenProvider` 클래스에서 토큰의 생성, 검증, 정보 추출을 담당합니다.
    - **토큰 생성**: 사용자 정보와 만료 시간을 설정하여 JWT를 발급합니다.
    - **토큰 검증**: 유효한 토큰인지 검증하고 만료 시 `2`, 유효하지 않은 경우 `3`을 반환합니다.
+```java
+    public int validateToken(String token) {
+        try {
+            Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            log.info("Token validated");
+            return 1;
+        } catch (ExpiredJwtException e) {
+            // 토큰이 만료된 경우
+            log.info("Token is expired");
+            return 2;
+        } catch (Exception e) {
+            // 복호화 과정에서 에러 발생
+            log.info("Token is not valid");
+            return 3;
+        }
+    }
+```
 
 2. **WebSecurityConfig - AccessDeniedHandler(403)와 AuthenticationEntryPoint(401)**  
    - JSON 메시지로 변환해서 받아와 권한별로 페이지 이동 처리
