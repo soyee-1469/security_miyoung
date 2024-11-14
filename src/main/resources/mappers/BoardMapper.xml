@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.security.springboot_security_miyoung.mapper.BoardMapper">
+
+    <resultMap id="boardResultMap" type="com.example.security.springboot_security_miyoung.model.Board">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="title" column="title"/>
+        <result property="created" column="created"/>
+        <result property="filePath" column="file_path"/>
+    </resultMap>
+
+    <insert id="saveArticle" parameterType="com.example.security.springboot_security_miyoung.model.Board">
+        INSERT INTO
+            article(user_id, title, content, file_path)
+        VALUES
+            (#{userId}, #{title}, #{content}, #{filePath});
+    </insert>
+
+    <select id="selectBoardList"
+            parameterType="com.example.security.springboot_security_miyoung.model.Paging"
+            resultMap="boardResultMap">
+        SELECT
+            *
+        FROM
+            article
+        ORDER BY id DESC
+        LIMIT #{offset}, #{size};
+    </select>
+
+    <select id="countBoards" resultType="Integer">
+        SELECT COUNT(*) FROM article;
+    </select>
+
+    <select id="selectBoardDetail"
+            parameterType="Long"
+            resultMap="boardResultMap">
+        SELECT
+            id, title, content, user_id, file_path, created
+        FROM article WHERE id = #{id};
+    </select>
+
+    <delete id="deleteBoardById" parameterType="Long">
+        DELETE FROM article
+        WHERE id = #{id};
+    </delete>
+
+    <update id="updateArticle" parameterType="com.example.security.springboot_security_miyoung.model.Board">
+        UPDATE article
+        SET
+            title = #{title}, content = #{content}, file_path = #{filePath}
+        WHERE
+            id = #{id};
+    </update>
+
+</mapper>

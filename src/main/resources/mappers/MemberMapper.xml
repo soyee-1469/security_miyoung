@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.security.springboot_security_miyoung.mapper.MemberMapper">
+
+    <resultMap id="memberResultMap" type="com.example.security.springboot_security_miyoung.model.Member">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="password" column="password"/>
+        <result property="userName" column="user_name"/>
+        <result property="role" column="role"/>
+    </resultMap>
+
+    <insert id="signUp" parameterType="com.example.security.springboot_security_miyoung.model.Member">
+        INSERT INTO member (user_id, password, user_name)
+        VALUES (#{userId}, #{password}, #{userName});
+    </insert>
+
+    <select id="findByUserId"
+            parameterType="String"
+            resultMap="memberResultMap">
+        SELECT
+            id, user_id, password, user_name, role
+        FROM member WHERE user_id = #{userId};
+    </select>
+
+</mapper>
