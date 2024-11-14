@@ -53,6 +53,7 @@
 
 - `@PreAuthorize` 어노테이션을 사용하여 ROLE_ADMIN 또는 글 작성자 본인만 상세 페이지를 볼 수 있도록 설정
 - 예외 상황에 따른 응답 코드와 페이지 이동이 처리됩니다.
+- WebSecurityConfig에 반드시 @EnableMethodSecurity(prePostEnabled = true) 설정!
 
 ```java
 @GetMapping("/{id}")
