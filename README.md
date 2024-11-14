@@ -94,3 +94,23 @@ error: (xhr) => {
 ```
 
 ---
+###admin 접속(ROLE_ADMIN)
+
+-리스트 확인
+![image](https://github.com/user-attachments/assets/9c079c58-7f5f-4e6e-81cd-e7612a2ca84a)
+
+-모든 USER 상세 내용 확인
+![image](https://github.com/user-attachments/assets/b7269571-81c7-4cc2-bf23-10a5d72a12b2)
+![image](https://github.com/user-attachments/assets/93082d4a-6037-4472-af04-c9011e717f15)
+
+
+###user2로 접속시(ROLE_USER)
+-모든 리스트 확인
+![image](https://github.com/user-attachments/assets/4538eeac-14da-4c2b-923b-e1fb2e6ed375)
+
+-본인글 확인가능(USER2)
+![image](https://github.com/user-attachments/assets/e080934b-c11a-4ad2-a2da-b0b313ffe4f9)
+-user3글 확인시 접근불가
+![image](https://github.com/user-attachments/assets/943599f5-61d5-4b11-9497-6c0f6eb17885)
+
+
