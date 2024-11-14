@@ -22,27 +22,7 @@
   - 본인이 작성한 글이거나 ROLE_ADMIN 권한이 있는 경우에 상세 페이지 접근 가능
   - 권한이 없을 경우 access-denied.html 페이지로 이동
 
-#### Controller로 권한 설정
 
-- `@PreAuthorize` 어노테이션을 사용하여 ROLE_ADMIN 또는 글 작성자 본인만 상세 페이지를 볼 수 있도록 설정
-- 예외 상황에 따른 응답 코드와 페이지 이동이 처리됩니다.
-
-```java
-@GetMapping("/{id}")
-@PreAuthorize("hasRole('ROLE_ADMIN') or @boardService.isOwner(authentication.name, #id)")
-public BoardDetailResponseDTO getBoardDetail(@PathVariable long id) {
-    Board boardDetail = boardService.getBoardDetail(id);
-    return BoardDetailResponseDTO.builder()
-            .title(boardDetail.getTitle())
-            .content(boardDetail.getContent())
-            .created(boardDetail.getCreated())
-            .userId(boardDetail.getUserId())
-            .filePath(boardDetail.getFilePath())
-            .build();
-}
-```
-
-### JWT 토큰 인증 설정
 
 1. **JWT 토큰 생성 및 검증**  
    - `TokenProvider` 클래스에서 토큰의 생성, 검증, 정보 추출을 담당합니다.
@@ -69,8 +49,28 @@ public BoardDetailResponseDTO getBoardDetail(@PathVariable long id) {
         }
     }
 ```
+1. **controller제어**  
 
-2. **WebSecurityConfig - AccessDeniedHandler(403)와 AuthenticationEntryPoint(401)**  
+- `@PreAuthorize` 어노테이션을 사용하여 ROLE_ADMIN 또는 글 작성자 본인만 상세 페이지를 볼 수 있도록 설정
+- 예외 상황에 따른 응답 코드와 페이지 이동이 처리됩니다.
+
+```java
+@GetMapping("/{id}")
+@PreAuthorize("hasRole('ROLE_ADMIN') or @boardService.isOwner(authentication.name, #id)")
+public BoardDetailResponseDTO getBoardDetail(@PathVariable long id) {
+    Board boardDetail = boardService.getBoardDetail(id);
+    return BoardDetailResponseDTO.builder()
+            .title(boardDetail.getTitle())
+            .content(boardDetail.getContent())
+            .created(boardDetail.getCreated())
+            .userId(boardDetail.getUserId())
+            .filePath(boardDetail.getFilePath())
+            .build();
+}
+```
+
+3. **WebSecurityConfig**
+   - AccessDeniedHandler(403)와 AuthenticationEntryPoint(401) 
    - JSON 메시지로 변환해서 받아와 권한별로 페이지 이동 처리
 
 ```java
@@ -95,7 +95,7 @@ public AuthenticationEntryPoint authenticationEntryPoint() {
 }
 ```
 
-3. **에러 코드 받아 JavaScript에서 페이지 이동시키기**
+4. **에러 코드 받아 JavaScript에서 페이지 이동시키기**
 
    - **401 Unauthorized**: 로그인 페이지로 리디렉션됩니다.
    - **403 Forbidden**: 권한이 부족한 경우 접근 제한 페이지(`/access-denied`)로 이동합니다.
