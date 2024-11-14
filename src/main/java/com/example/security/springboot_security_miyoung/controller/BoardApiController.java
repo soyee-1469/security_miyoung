@@ -77,7 +77,6 @@ public class BoardApiController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @boardService.isOwner(authentication.name, #id)")
     public ResponseEntity<Void> updateArticle(
             @PathVariable Long id,
             @RequestParam("title") String title,
@@ -106,7 +105,6 @@ public class BoardApiController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') or @boardService.isOwner(authentication.name, #id)")
     public ResponseEntity<String> deleteArticle(
             @PathVariable long id,
             @RequestBody BoardDeleteRequestDTO request

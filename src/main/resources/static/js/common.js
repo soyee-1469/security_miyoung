@@ -4,6 +4,7 @@ let setupAjax = () => {
             let token = localStorage.getItem("accessToken");
             if (token) {
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+                console.log("토큰이 설정되었습니다:", token); // 콘솔에 토큰 출력
             }
         }
     });
