@@ -1,5 +1,7 @@
 
 ### README.md
+![image](https://github.com/user-attachments/assets/f046ce22-5519-4c79-b4db-c6b840557d72)
+
 
 ## 권한에 따른 게시판 구현
 
@@ -114,9 +116,7 @@ error: (xhr) => {
     }
 }
 ```
-
----
-###admin 접속(ROLE_ADMIN)
+### admin접속(ROLE_ADMIN)
 
 -리스트 확인
 ![image](https://github.com/user-attachments/assets/9c079c58-7f5f-4e6e-81cd-e7612a2ca84a)
@@ -125,8 +125,7 @@ error: (xhr) => {
 ![image](https://github.com/user-attachments/assets/b7269571-81c7-4cc2-bf23-10a5d72a12b2)
 ![image](https://github.com/user-attachments/assets/93082d4a-6037-4472-af04-c9011e717f15)
 
-
-###user2로 접속시(ROLE_USER)
+### USER2접속(ROLE_USER)
 -모든 리스트 확인
 ![image](https://github.com/user-attachments/assets/4538eeac-14da-4c2b-923b-e1fb2e6ed375)
 
@@ -135,4 +134,4 @@ error: (xhr) => {
 -user3글 확인시 접근불가
 ![image](https://github.com/user-attachments/assets/943599f5-61d5-4b11-9497-6c0f6eb17885)
 
-
+---
