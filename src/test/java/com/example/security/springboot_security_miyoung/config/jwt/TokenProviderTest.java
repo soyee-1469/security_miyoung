@@ -9,12 +9,6 @@ import java.util.Base64;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TokenProviderTest {
-    @Test
-    void generate_secret_key() {
-        SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-        String encoded = Base64.getEncoder().encodeToString(secretKey.getEncoded());
-        System.out.println(encoded);
-    }
 
 
 }

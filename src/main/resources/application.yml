@@ -16,3 +16,26 @@ mybatis:
 jwt:
   issuer: test@naver.com
   secret_key: 1CUkGbcRHun/pzZ7iX5GLk4AswnEZor6gz1bu9tkfL7bh7x9O40g34qgkdOoct3CyQLh8Rb0nQ5oVKhv2/Ojvw==
+
+security:
+  oauth2:
+    client:
+      registration:
+        kakao:
+          client-id: 32eaa2827d9d9ec293b77240e3cb2d60  # Replace with your Kakao REST API key
+          client-name: Kakao
+          client-authentication-method: post
+          authorization-grant-type: authorization_code
+          redirect-uri: "http://localhost:8081/oauth/kakao/callback"
+          scope: "profile_nickname,account_email"
+      provider:
+        kakao:
+          authorization-uri: https://kauth.kakao.com/oauth/authorize
+          token-uri: https://kauth.kakao.com/oauth/token
+          user-info-uri: https://kapi.kakao.com/v2/user/me
+          user-name-attribute: id
+
+logging:
+  level:
+    root: INFO
+    com.example.security: DEBUG

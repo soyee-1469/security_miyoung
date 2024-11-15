@@ -16,7 +16,8 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
@@ -29,7 +30,7 @@ public class WebSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(
-                        "/static/**", "/css/**", "/js/**","/favicon.ico"
+                        "/static/**", "/css/**", "/js/**", "/favicon.ico"
                 );
     }
 
@@ -40,23 +41,34 @@ public class WebSecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                new AntPathRequestMatcher("/member/login"),
-                                new AntPathRequestMatcher("/member/join"),
-                                new AntPathRequestMatcher("/join"),
-                                new AntPathRequestMatcher("/login"),
-                                new AntPathRequestMatcher("/"),
-                                new AntPathRequestMatcher("/write"),
-                                new AntPathRequestMatcher("/detail"),
-                                new AntPathRequestMatcher("/update/**"),
-                                new AntPathRequestMatcher("/api/board/file/download/**"),
-                                new AntPathRequestMatcher("/access-denied")
+                                "/static/**", "/css/**", "/js/**", "/favicon.ico","/images/**"
+                        ).permitAll() // 이전 WebSecurityCustomizer 설정을 여기에 통합
+                        .requestMatchers(
+                                "/member/login",
+                                "/member/join",
+                                "/join",
+                                "/login",
+                                "/",
+                                "/write",
+                                "/detail",
+                                "/update/**",
+                                "/api/board/file/download/**",
+                                "/access-denied",
+                                "/api/kakao/login",
+                                "/oauth/kakao/callback",
+                                "/oauth2/authorization/kakao",
+                                "/oauth/kakao/success"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class) // JWT 필터 추가
+                .oauth2Login(oauth2 -> oauth2
+                        .loginPage("/member/login")
+                        .defaultSuccessUrl("/", true)
+                )
+                .addFilterBefore(tokenAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(accessDeniedHandler()) // 403 접근 권한이 없을 때 처리
-                        .authenticationEntryPoint(authenticationEntryPoint()) // 401 인증되지 않은 사용자가 접근할 때 처리
+                        .accessDeniedHandler(accessDeniedHandler())
+                        .authenticationEntryPoint(authenticationEntryPoint())
                 );
 
         return http.build();
@@ -90,5 +102,17 @@ public class WebSecurityConfig {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write("{\"error\": \"Unauthorized\", \"message\": \"Authentication is required to access this resource.\"}");
         };
+    }
+    @Configuration
+    public class WebConfig implements WebMvcConfigurer {
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:8081")
+                    .allowedMethods(
+
+                            "GET", "POST", "PUT", "DELETE")
+                    .allowCredentials(true);
+        }
     }
 }

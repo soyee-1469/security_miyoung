@@ -12,4 +12,5 @@ public class UserInfoResponseDTO {
     private String userId;
     private String userName;
     private Role role;
+
 }

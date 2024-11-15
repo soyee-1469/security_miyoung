@@ -33,11 +33,17 @@ let handleTokenExpiration = () => {
 
 
 let checkToken = () => {
-    let token = localStorage.getItem("accessToken");
-    if (token == null || token.trim() === '') {
-        window.location.href = '/member/login';
-    }
-}
+    return new Promise((resolve, reject) => {
+        let token = localStorage.getItem("accessToken");
+        if (!token) {
+            alert("로그인이 필요합니다.");
+            window.location.href = '/member/login';
+            reject(); // Promise 종료
+        } else {
+            resolve();
+        }
+    });
+};
 
 let getUserInfo = () => {
     return new Promise( (resolve, reject) => {

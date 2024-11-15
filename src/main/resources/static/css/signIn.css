@@ -78,3 +78,13 @@ input[type="submit"]:hover {
 .signup-link a:hover {
     text-decoration: underline;
 }
+
+/* 카카오 로그인 버튼 스타일 */
+.btn-kakao-login {
+    width: 200px;
+    height: 50px;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
